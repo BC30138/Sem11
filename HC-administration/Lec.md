@@ -34,5 +34,20 @@ Xcat
 не забывать снэпшотить 
 
 
+DHCP убрать (первый и второй занят)
 
+copycds-cdrom
 
+/etc/hostname - bc30138.cluster
+
+/etc/hosts - <ip> bc30138.cluster bc30138
+
+/etc/resolv.conf - не понял, но там что-то типа 
+```
+servername <ip>
+search что-то там
+```
+
+lsdef -t osimage -o <>
+
+инициализация dns сервера
