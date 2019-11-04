@@ -55,4 +55,3 @@ $ makedns -n
 $ chdef -t site dhcpinterfaces="enp0s3"
 $ makedhcp -n
 ```
-
