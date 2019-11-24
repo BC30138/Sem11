@@ -53,6 +53,49 @@ $ makedns -n
 Далее надо настроить dhcp:
 ```
 $ chdef -t site dhcpinterfaces="enp0s3"
-$ makedhcp -n
 ```
 
+Установить диапазон адресов для dhcp.
+
+```
+$ chdef -t network 10_0_2_0-255_255_255_0 dynamicrange="10.0.2.51-10.0.2.80"
+$ makedhcp -n
+$ makedhcp -a
+```
+
+Создать пользователя root на каждой машине c паролем abc123
+```
+$ chtab key=system passwd.username=root passwd.password=`openssl passwd -1 abc123`
+```
+
+Создаем calculation ноды - создаем новую виртуальную машину Linux (Ubuntu 64) с памятью 1280мб и жестким диском 20Гб
+Настройка виртуальной машины для нода: 
+- Вкладка System: 
+  - Motherboard/Boot order отключить Floppy и Optical, включить Network, пододвинуть наверх в последовательности 1 - Hard, 2 - Network.
+  - Motherboard/Chipset = ICH9
+  - Motherboard/Pointing Device = PS/2 Mouse
+  - Motherboard/Extended Features = снять галку Hardware Clock
+  - Processor/Processor(s) = 2
+  - Processor/Execution Cap = 60
+  - Processor/Extended Features = поставить галку Enable PAE
+- Storage:
+  - Удалить Controller: IDE
+- Audio
+  - Убрать галку Enable audio 
+- Network:
+  - Attached to: NAT Network
+  - Name: NatNetwork
+  - Запомнить макадрес, у меня 080027C8D369
+
+Создаем узел calcnode:
+```
+$ mkdef -t node -o calcnode01 arch=x86_64 mac="08:00:27:C8:D3:69" ip="10.0.2.101" netboot="pxe" groups="all"
+$ makehosts calcnode01
+```
+
+Связываем нод с образом системы
+```
+$ nodeset calcnode01 osimage=ubuntu16.04.6-x86_64-install-compute
+```
+
+запускаем виртуальный нод?
