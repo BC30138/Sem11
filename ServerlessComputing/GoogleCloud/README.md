@@ -1,5 +1,17 @@
 # Google cloud functions
 
+you need install gcloud SDK, than
+```
+gcloud init
+```
+
+to change account:
+```
+gcloud auth login
+```
+
+Also you can use .json credentials (API -> credentials)
+
 To deploy function:
 ```
 sudo gcloud functions deploy resize --source=src --runtime python37 --trigger-http
