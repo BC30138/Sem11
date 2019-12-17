@@ -2,13 +2,12 @@
 """
 client app
 """
+import subprocess
 import base64
 import requests
-import json
-import subprocess
 
 URL = "https://us-central1-polytech-lab.cloudfunctions.net/resize"
-
+TEST_URL = "http://127.0.0.1:8888/resize"
 
 def main():
     proc = subprocess.Popen(['sudo', 'gcloud', 'auth' ,'print-identity-token'],
@@ -17,14 +16,13 @@ def main():
     token, _ = proc.communicate()
     token = str(token)[2:-3]
 
-    data = {}
-    files = {'image': open('data/igor-nikolaev.jpg', mode='rb')}
+    # files = {'image': open(, mode='rb')}
+    with open('data/igor-nikolaev.jpg', 'rb') as image_file:
+        encoded_string = base64.b64encode(image_file.read())
 
     headers = {"Authorization": "bearer {}".format(token.strip())}
-    response = requests.post(URL, files=files, headers=headers)
-    data = response.json()
-    for index, image in enumerate(data['resized_images']):
-        with open('data/' + str(index) + '.jpg', 'wb') as fl:
-            fl.write(base64.b64decode(image))
+    response = requests.post(URL, data=encoded_string, headers=headers)
+    with open('data/data.zip', 'wb') as f:
+        f.write(base64.b64decode(response.text))
 
 main()

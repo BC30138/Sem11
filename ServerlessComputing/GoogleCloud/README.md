@@ -12,6 +12,8 @@ gcloud auth login
 
 Also you can use .json credentials (API -> credentials)
 
+For local development: https://cloud.google.com/functions/docs/functions-framework
+
 To deploy function:
 ```
 sudo gcloud functions deploy resize --source=src --runtime python37 --trigger-http
