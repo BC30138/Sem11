@@ -1,5 +1,5 @@
 from flask import Flask, request
-from src.main import resize
+from resize.main import resize
 app = Flask(__name__)
 
 @app.route('/resize', methods = ['POST'])

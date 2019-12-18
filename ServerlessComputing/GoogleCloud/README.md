@@ -1,18 +1,12 @@
 # Google cloud functions
 
-you need install gcloud SDK, than
-```
-gcloud init
-```
+Для удобства разработки рекомендуется установить Google SDK: https://cloud.google.com/sdk/docs/downloads-apt-get
 
-to change account:
-```
-gcloud auth login
-```
+Далее требуется авторизоваться. В рамках данной разработки, в отсутствии реального конечного пользователся было принято решение использовать service account для авторизации разработчика. авторизация осуществляется с помощью json-файла, содержащего все необходимое для авторизации. Для этого используется следующая команда:
 
-Also you can use .json credentials (API -> credentials)
-
-For local development: https://cloud.google.com/functions/docs/functions-framework
+```
+gcloud auth activate-service-account --key-file=/path/to/json
+```
 
 To deploy function:
 ```
