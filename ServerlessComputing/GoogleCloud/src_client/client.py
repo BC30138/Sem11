@@ -6,6 +6,8 @@ import argparse
 import subprocess
 import base64
 import requests
+import zipfile
+import io
 
 PROD_URL = "https://us-central1-polytech-lab.cloudfunctions.net/resize"
 TEST_URL = "http://127.0.0.1:8888/resize"
@@ -18,12 +20,12 @@ class Client():
                             type=str,
                             help="Path to image to send",
                             required=False,
-                            default='data/igor-nikolaev.jpg')
+                            default='data/example.jpg')
         parser.add_argument("-o", "--output", action='store',
                             type=str,
                             help="Path to response" +
                             "zip/extracted images directory",
-                            required=False, default='data/data.zip')
+                            required=False, default='data/resized_images.zip')
         parser.add_argument("-e", "--extract",
                             help="Flag to extract response zip",
                             action='store_true', required=False)
@@ -51,7 +53,10 @@ class Client():
                                  headers=self.headers)
 
         if self.args.extract:
-            print("TBD")
+            if self.args.output == 'data/resized_images.zip':
+                self.args.output = 'data/resized_images'
+            in_memory_zipfile = io.BytesIO(base64.b64decode(response.text))
+            zipfile.ZipFile(in_memory_zipfile).extractall(self.args.output)
         else:
             with open(self.args.output, 'wb') as output_file:
                 output_file.write(base64.b64decode(response.text))
