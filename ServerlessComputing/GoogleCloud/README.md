@@ -12,6 +12,12 @@ gcloud auth activate-service-account --key-file=/path/to/json
 
 Где **/path/to/json** - путь до json-файла, содержащего данные о **service account**.
 
+Активировать проект для разработки
+```
+gcloud config set project myProject
+```
+где **myProject** - это активный проект. В нашем случае это polytech-lab.
+
 Для того, чтобы развернуть написанную функцию на google cloud требуется выполнить следующую команду:
 
 ```
