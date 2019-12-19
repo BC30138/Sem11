@@ -25,6 +25,6 @@ sudo gcloud functions deploy function_name --source=/path/to/source --runtime py
 
 ## Test
 
-Для тестирования можно использовать скрипт **src_client/client.py**.
+Для тестирования можно использовать скрипт **src_client/client.py**. Для того, чтобы сделать запрос на google cloud достаточно просто запусть скрипт.
 
 Тестировать можно так же локально. Для этого требуется запустить скрипт **src/test.py**, необходимые пакеты для скрипта содержаться в файле **requirements.txt** в корне проекта.
