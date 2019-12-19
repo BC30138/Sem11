@@ -2,12 +2,12 @@
 """
 client app
 """
+import io
+import zipfile
 import argparse
 import subprocess
 import base64
 import requests
-import zipfile
-import io
 
 PROD_URL = "https://us-central1-polytech-lab.cloudfunctions.net/resize"
 TEST_URL = "http://127.0.0.1:8888/resize"
