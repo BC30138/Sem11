@@ -14,9 +14,10 @@ gcloud auth activate-service-account --key-file=/path/to/json
 
 Активировать проект для разработки
 ```
-gcloud config set project myProject
+gcloud config set project project_name
 ```
-где **myProject** - это активный проект. В нашем случае это polytech-lab.
+
+Где **project_name** - это проект google cloud. В нашем случае это polytech-lab.
 
 Для того, чтобы развернуть написанную функцию на google cloud требуется выполнить следующую команду:
 
@@ -43,7 +44,7 @@ sudo gcloud functions deploy function_name --source=/path/to/source --runtime py
 
 - -i INPUT, --input INPUT
 
-    INPUT указывает путь к файлу, который требуется отправить. По умолчанию **INPUT=data/example.jpg**
+    INPUT указывает путь к файлу, который требуется отправить. По умолчанию **INPUT=data/example.png**
 - -o OUTPUT, --output OUTPUT
 
     OUTPUT указывает путь для сохранения изображений / архива из ответа сервера. По умолчанию, если указан флаг -e **OUTPUT=data/resized_images**, иначе **OUTPUT=data/resized_images.zip**

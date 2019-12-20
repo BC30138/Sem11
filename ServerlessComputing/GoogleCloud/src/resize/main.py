@@ -4,11 +4,19 @@ import zipfile
 import base64
 from PIL import Image
 
+def image_processing(image: Image.Image,
+                     size: tuple, os_str: str) -> tuple:
+    """image resizing and response-preprocessing"""
+    buffered = BytesIO()
+    image.resize(size).save(buffered, format="PNG")
+    filename = os_str + "/icon_" + str(size[0]) + "x" + str(size[1]) + ".png"
+    return filename, buffered.getvalue()
+
 def resize(request):
     """
-    IGOR NIKOLAEV WAITING
+    Endpoint main function
     """
-    ios_sizes = [(16,16), (20, 20), (29, 29), (32, 32),
+    ios_sizes = [(16, 16), (20, 20), (29, 29), (32, 32),
                  (40, 40), (48, 48), (50, 50), (55, 55),
                  (57, 57), (58, 58), (60, 60), (64, 64),
                  (72, 72), (76, 76), (80, 80), (87, 87),
@@ -25,18 +33,12 @@ def resize(request):
     with zipfile.ZipFile(memory_zip, mode="w",
                          compression=zipfile.ZIP_DEFLATED) as zf:
         for size in ios_sizes:
-            buffered = BytesIO()
-            image.resize(size).save(buffered, format="JPEG")
-            filename = "ios/icon_" + str(size[0]) + "x" + str(size[1]) + ".jpeg"
-            zf.writestr(filename, buffered.getvalue())
+            filename, base64_resized = image_processing(image, size, 'ios')
+            zf.writestr(filename, base64_resized)
         for size in android_sizes:
-            buffered = BytesIO()
-            image.resize(size).save(buffered, format="JPEG")
-            filename = "android/icon_" + str(size[0]) + "x" + str(size[1]) + ".jpeg"
-            zf.writestr(filename, buffered.getvalue())
+            filename, base64_resized = image_processing(image, size, 'android')
+            zf.writestr(filename, base64_resized)
         for size in watch_sizes:
-            buffered = BytesIO()
-            image.resize(size).save(buffered, format="JPEG")
-            filename = "watch/icon_" + str(size[0]) + "x" + str(size[1]) + ".jpeg"
-            zf.writestr(filename, buffered.getvalue())
+            filename, base64_resized = image_processing(image, size, 'watch')
+            zf.writestr(filename, base64_resized)
     return base64.b64encode(memory_zip.getvalue())

@@ -13,6 +13,9 @@ PROD_URL = "https://us-central1-polytech-lab.cloudfunctions.net/resize"
 TEST_URL = "http://127.0.0.1:8888/resize"
 
 class Client():
+    """
+    Object for testing endpoints, it parse arguments of script and send requests
+    """
     def __init__(self):
         parser = argparse.ArgumentParser(
             description="Client to send requests to resize image")
@@ -20,7 +23,7 @@ class Client():
                             type=str,
                             help="Path to image to send",
                             required=False,
-                            default='data/example.jpg')
+                            default='data/example.png')
         parser.add_argument("-o", "--output", action='store',
                             type=str,
                             help="Path to response" +
@@ -46,6 +49,9 @@ class Client():
             self.headers = {"Authorization": "bearer {}".format(token.strip())}
 
     def post(self):
+        """
+        Send image as post request
+        """
         with open(self.args.input, 'rb') as image_file:
             encoded_string = base64.b64encode(image_file.read())
 
@@ -61,5 +67,4 @@ class Client():
             with open(self.args.output, 'wb') as output_file:
                 output_file.write(base64.b64decode(response.text))
 
-app = Client()
-app.post()
+Client().post()
